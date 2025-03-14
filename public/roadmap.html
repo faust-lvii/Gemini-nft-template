@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yol Haritası - Antik Mısır NFT Koleksiyonu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(15, 15, 30, 0.8);
+            --accent-primary: #9333ea;
+            --accent-secondary: #6366f1;
+            --text-primary: #f8f9fa;
+            --text-secondary: #cbd5e1;
+            --border-color: rgba(147, 51, 234, 0.3);
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: rgba(10, 10, 26, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary) !important;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary) !important;
+            text-shadow: 0 0 8px rgba(147, 51, 234, 0.5);
+        }
+        
+        /* Header */
+        .page-header {
+            padding: 7rem 0 4rem;
+            background: linear-gradient(to bottom, rgba(10, 10, 26, 0.95), var(--bg-dark));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239333ea' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .header-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Roadmap Section */
+        .roadmap-section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .roadmap-container {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .roadmap-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+        
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 4rem;
+            width: 100%;
+        }
+        
+        .roadmap-item:nth-child(odd) {
+            padding-right: calc(50% + 30px);
+            text-align: right;
+        }
+        
+        .roadmap-item:nth-child(even) {
+            padding-left: calc(50% + 30px);
+            text-align: left;
+        }
+        
+        .roadmap-content {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .roadmap-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(147, 51, 234, 0.2);
+        }
+        
+        .roadmap-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            top: 30px;
+            border-radius: 50%;
+            z-index: 11;
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+        }
+        
+        .roadmap-item:nth-child(odd)::after {
+            right: calc(50% - 10px);
+        }
+        
+        .roadmap-item:nth-child(even)::after {
+            left: calc(50% - 10px);
+        }
+        
+        .roadmap-date {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .roadmap-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .roadmap-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .roadmap-status {
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            color: #10b981;
+        }
+        
+        .status-progress {
+            color: #f59e0b;
+        }
+        
+        .status-upcoming {
+            color: #6366f1;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .roadmap-container::before {
+                left: 30px;
+            }
+            
+            .roadmap-item {
+                padding-left: 80px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+            
+            .roadmap-item::after {
+                left: 20px !important;
+                right: auto !important;
+            }
+            
+            .header-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: rgba(10, 10, 26, 0.95);
+            color: var(--text-primary);
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-primary);
+            transform: translateX(5px);
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a14;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, var(--accent-secondary), var(--accent-primary));
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">NFT Koleksiyonu</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="collection.html">Koleksiyon</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Hakkında</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="roadmap.html">Yol Haritası</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faq.html">SSS</a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-light ms-3" id="connectWallet">
+                    <i class="fas fa-wallet me-2"></i>Cüzdan Bağla
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header text-center">
+        <div class="container">
+            <h1 class="header-title">Yol Haritası</h1>
+            <p class="header-subtitle">Antik Mısır NFT Koleksiyonumuzun gelecek planları ve gelişim aşamaları</p>
+        </div>
+    </header>
+
+    <section class="roadmap-section">
+        <div class="container">
+            <div class="roadmap-container">
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-content">
+                        <span class="roadmap-date">2025 Q1</span>
+                        <h3 class="roadmap-title">Koleksiyon Lansmanı</h3>
+                        <p class="roadmap-description">Antik Mısır NFT Koleksiyonu'nun ilk serisi olan "Firavunlar Diyarı" lansmanı. İlk 10 benzersiz NFT'nin piyasaya sürülmesi ve özel bir lansman etkinliği düzenlenmesi.</p>
+                        <div class="roadmap-status status-completed">Tamamlandı ✓</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-content">
+                        <span class="roadmap-date">2025 Q2</span>
+                        <h3 class="roadmap-title">Topluluk Oluşturma</h3>
+                        <p class="roadmap-description">Discord ve Telegram topluluk kanallarının kurulması. NFT sahiplerine özel ayrıcalıklar ve etkinlikler düzenlenmesi. Topluluk yönetişim sisteminin oluşturulması.</p>
+                        <div class="roadmap-status status-progress">Devam Ediyor ⟳</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-content">
+                        <span class="roadmap-date">2025 Q3</span>
+                        <h3 class="roadmap-title">İkinci Seri: Tanrılar & Mitoloji</h3>
+                        <p class="roadmap-description">Antik Mısır tanrıları ve mitolojik hikayelerini konu alan ikinci NFT serisinin lansmanı. Toplam 15 yeni benzersiz NFT'nin piyasaya sürülmesi.</p>
+                        <div class="roadmap-status status-upcoming">Yakında ⧖</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-content">
+                        <span class="roadmap-date">2025 Q4</span>
+                        <h3 class="roadmap-title">Metaverse Entegrasyonu</h3>
+                        <p class="roadmap-description">Sanal bir Antik Mısır müzesi oluşturulması. NFT sahiplerinin avatarlarını ve koleksiyonlarını sergileyebilecekleri özel alanların tasarlanması. VR/AR deneyimlerinin geliştirilmesi.</p>
+                        <div class="roadmap-status status-upcoming">Yakında ⧖</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-content">
+                        <span class="roadmap-date">2026 Q1</span>
+                        <h3 class="roadmap-title">Üçüncü Seri: Piramitler & Mimari</h3>
+                        <p class="roadmap-description">Antik Mısır mimarisi, piramitler ve tapınakları konu alan üçüncü NFT serisinin lansmanı. 3D modellemeler ve interaktif NFT'lerin geliştirilmesi.</p>
+                        <div class="roadmap-status status-upcoming">Yakında ⧖</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-content">
+                        <span class="roadmap-date">2026 Q2</span>
+                        <h3 class="roadmap-title">NFT Staking & Ödül Sistemi</h3>
+                        <p class="roadmap-description">NFT sahiplerinin koleksiyonlarını stake ederek token kazanabilecekleri bir sistem geliştirilmesi. Topluluk hazinesi oluşturulması ve yönetişim tokenlerinin dağıtılması.</p>
+                        <div class="roadmap-status status-upcoming">Yakında ⧖</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-content">
+                        <span class="roadmap-date">2026 Q3-Q4</span>
+                        <h3 class="roadmap-title">Gerçek Dünya Etkinlikleri</h3>
+                        <p class="roadmap-description">NFT sahipleri için Mısır'a özel bir gezi düzenlenmesi. Dünya çapında müzelerle işbirliği yapılarak Antik Mısır sergilerinin düzenlenmesi. Fiziksel sanat eserleri ve koleksiyon ürünlerinin üretilmesi.</p>
+                        <div class="roadmap-status status-upcoming">Yakında ⧖</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-4">NFT Koleksiyonu</h5>
+                    <p>Antik dünyanın gizemlerini modern dijital sanatla buluşturan benzersiz NFT koleksiyonu.</p>
+                    <div class="d-flex gap-3 mt-4 social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-opensea"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="footer-title">Sayfalar</h5>
+                    <div class="footer-links">
+                        <a href="index.html">Ana Sayfa</a>
+                        <a href="collection.html">Koleksiyon</a>
+                        <a href="about.html">Hakkında</a>
+                        <a href="roadmap.html">Yol Haritası</a>
+                        <a href="faq.html">SSS</a>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 class="footer-title">Kaynaklar</h5>
+                    <div class="footer-links">
+                        <a href="#">Whitepaper</a>
+                        <a href="#">Topluluk</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Basın Kiti</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="footer-title">Bülten</h5>
+                    <p class="mb-3">Yeni NFT'ler ve etkinlikler hakkında bilgi almak için abone olun.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="E-posta adresiniz" aria-label="E-posta adresiniz">
+                        <button class="btn btn-primary" type="button">Abone Ol</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p class="mb-0"> 2025 Antik Mısır NFT Koleksiyonu. Tüm hakları saklıdır.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header yüksekliğine göre body padding ayarlama
+            function adjustBodyPadding() {
+                const navbar = document.querySelector('.navbar');
+                const navbarHeight = navbar.offsetHeight;
+                document.body.style.paddingTop = navbarHeight + 'px';
+            }
+            
+            // Sayfa yüklendiğinde ve yeniden boyutlandırıldığında padding'i ayarla
+            adjustBodyPadding();
+            window.addEventListener('resize', adjustBodyPadding);
+            
+            // Fade-in animations
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Connect wallet button
+            document.getElementById('connectWallet').addEventListener('click', function() {
+                alert('Cüzdan bağlama özelliği yakında aktif olacaktır!');
+            });
+        });
+    </script>
+</body>
+</html>

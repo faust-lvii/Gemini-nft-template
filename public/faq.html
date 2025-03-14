@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSS - Antik Mısır NFT Koleksiyonu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(15, 15, 30, 0.8);
+            --accent-primary: #9333ea;
+            --accent-secondary: #6366f1;
+            --text-primary: #f8f9fa;
+            --text-secondary: #cbd5e1;
+            --border-color: rgba(147, 51, 234, 0.3);
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: rgba(10, 10, 26, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary) !important;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary) !important;
+            text-shadow: 0 0 8px rgba(147, 51, 234, 0.5);
+        }
+        
+        /* Header */
+        .page-header {
+            padding: 7rem 0 4rem;
+            background: linear-gradient(to bottom, rgba(10, 10, 26, 0.95), var(--bg-dark));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239333ea' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .header-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 0;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: var(--bg-card);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 5px 15px rgba(147, 51, 234, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .faq-question::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question::after {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+        
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+        
+        .category-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-primary);
+            display: inline-block;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: rgba(10, 10, 26, 0.95);
+            color: var(--text-primary);
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-primary);
+            transform: translateX(5px);
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a14;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, var(--accent-secondary), var(--accent-primary));
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">NFT Koleksiyonu</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="collection.html">Koleksiyon</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Hakkında</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="roadmap.html">Yol Haritası</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="faq.html">SSS</a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-light ms-3" id="connectWallet">
+                    <i class="fas fa-wallet me-2"></i>Cüzdan Bağla
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header text-center">
+        <div class="container">
+            <h1 class="header-title">Sıkça Sorulan Sorular</h1>
+            <p class="header-subtitle">Antik Mısır NFT Koleksiyonu hakkında merak ettiğiniz tüm sorular ve cevapları</p>
+        </div>
+    </header>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-container">
+                <div class="faq-category fade-in">
+                    <h2 class="category-title">NFT'ler Hakkında</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">NFT nedir?</div>
+                        <div class="faq-answer">
+                            <p>NFT (Non-Fungible Token), benzersiz ve değiştirilemez dijital varlıkları temsil eden blockchain tabanlı tokenlerdir. Her NFT, kendine özgü bir kimliğe sahiptir ve bu da onu diğer NFT'lerden ayırır. NFT'ler, dijital sanat eserleri, koleksiyon öğeleri, oyun içi öğeler ve daha fazlası gibi dijital varlıkların sahipliğini ve özgünlüğünü kanıtlamak için kullanılır.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">NFT'leri nasıl satın alabilirim?</div>
+                        <div class="faq-answer">
+                            <p>NFT'lerimizi satın almak için şu adımları izleyebilirsiniz:</p>
+                            <ol>
+                                <li>Ethereum tabanlı bir kripto para cüzdanı edinin (MetaMask, Trust Wallet vb.)</li>
+                                <li>Cüzdanınıza ETH (Ethereum) yükleyin</li>
+                                <li>Web sitemizde "Cüzdan Bağla" butonuna tıklayın</li>
+                                <li>Satın almak istediğiniz NFT'yi seçin ve "Satın Al" butonuna tıklayın</li>
+                                <li>İşlemi cüzdanınızda onaylayın</li>
+                            </ol>
+                            <p>NFT'niz, işlem onaylandıktan sonra cüzdanınıza aktarılacaktır.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">NFT'lerimin sahipliğini nasıl kanıtlayabilirim?</div>
+                        <div class="faq-answer">
+                            <p>NFT'lerinizin sahipliği, Ethereum blockchain'inde kayıtlıdır. Cüzdanınıza bağlandığınızda, sahip olduğunuz tüm NFT'leri görebilirsiniz. Ayrıca, NFT'lerinizi OpenSea, Rarible gibi NFT pazaryerlerinde de görüntüleyebilir ve sahipliğinizi kanıtlayabilirsiniz.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category fade-in">
+                    <h2 class="category-title">Koleksiyonumuz Hakkında</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Antik Mısır NFT Koleksiyonu nedir?</div>
+                        <div class="faq-answer">
+                            <p>Antik Mısır NFT Koleksiyonu, Antik Mısır medeniyetinin zengin kültürel mirasını, modern dijital sanat ve blockchain teknolojisiyle buluşturan benzersiz bir NFT projesidir. Koleksiyonumuz, firavunlar, tanrılar, piramitler, hiyeroglifler ve daha fazlasını içeren, Gemini AI teknolojisiyle oluşturulmuş dijital sanat eserlerinden oluşmaktadır.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Koleksiyonda kaç NFT bulunuyor?</div>
+                        <div class="faq-answer">
+                            <p>Şu anda koleksiyonumuzda ilk seri olan "Firavunlar Diyarı" kapsamında 10 benzersiz NFT bulunmaktadır. Yol haritamıza göre, gelecek aylarda ve yıllarda yeni seriler ve NFT'ler eklenecektir. Toplamda, projenin tamamlanmasıyla birlikte koleksiyonumuzda 100'den fazla benzersiz NFT yer alacaktır.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">NFT'lerin fiyatları ne kadar?</div>
+                        <div class="faq-answer">
+                            <p>NFT'lerimizin fiyatları, nadirliklerine, sanatsal değerlerine ve koleksiyondaki yerlerine göre değişiklik göstermektedir. İlk seri NFT'lerimizin fiyatları 0.05 ETH ile 0.5 ETH arasında değişmektedir. Özel ve nadir NFT'ler için fiyatlar daha yüksek olabilir. Güncel fiyatlar için lütfen koleksiyon sayfamızı ziyaret edin.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category fade-in">
+                    <h2 class="category-title">Teknik Sorular</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Hangi blockchain ağını kullanıyorsunuz?</div>
+                        <div class="faq-answer">
+                            <p>Antik Mısır NFT Koleksiyonu, Ethereum blockchain ağını kullanmaktadır. NFT'lerimiz, ERC-721 standardına uygun olarak oluşturulmuştur, bu da onların benzersizliğini ve sahipliğini garanti eder.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Gas ücretleri ne kadardır?</div>
+                        <div class="faq-answer">
+                            <p>Gas ücretleri, Ethereum ağının yoğunluğuna göre değişiklik göstermektedir. NFT satın alırken ödeyeceğiniz gas ücreti, işlem sırasında ağın durumuna bağlıdır. Gas ücretlerini düşük tutmak için, ağın daha az yoğun olduğu zamanlarda işlem yapmayı tercih edebilirsiniz.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">NFT'lerimi başka pazaryerlerinde satabilir miyim?</div>
+                        <div class="faq-answer">
+                            <p>Evet, satın aldığınız NFT'ler tamamen size aittir ve istediğiniz NFT pazaryerinde (OpenSea, Rarible, LooksRare vb.) satışa çıkarabilirsiniz. NFT'lerimiz standart ERC-721 formatında olduğu için tüm büyük NFT pazaryerleriyle uyumludur.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-category fade-in">
+                    <h2 class="category-title">Topluluk ve Destek</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Topluluğunuza nasıl katılabilirim?</div>
+                        <div class="faq-answer">
+                            <p>Topluluğumuza katılmak için Discord ve Telegram kanallarımıza üye olabilirsiniz. Ayrıca, Twitter ve Instagram hesaplarımızı takip ederek güncel duyuru ve etkinliklerden haberdar olabilirsiniz. Tüm sosyal medya bağlantılarımızı web sitemizin alt kısmında bulabilirsiniz.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">NFT sahiplerine özel ayrıcalıklar var mı?</div>
+                        <div class="faq-answer">
+                            <p>Evet, NFT sahipleri çeşitli ayrıcalıklara sahip olurlar:</p>
+                            <ul>
+                                <li>Discord'da özel kanallara erişim</li>
+                                <li>Yeni NFT serilerinde öncelikli erişim ve indirimler</li>
+                                <li>Topluluk yönetişimine katılma hakkı</li>
+                                <li>Özel etkinliklere davetler</li>
+                                <li>Gelecekteki projelerde ayrıcalıklar</li>
+                                <li>Metaverse entegrasyonunda özel alanlar</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Teknik sorunlar yaşarsam ne yapmalıyım?</div>
+                        <div class="faq-answer">
+                            <p>Teknik sorunlar yaşamanız durumunda, support@antikmisirnft.com adresine e-posta gönderebilir veya Discord kanalımızdaki #destek bölümünden yardım alabilirsiniz. Ekibimiz en kısa sürede size yardımcı olacaktır.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-uppercase mb-4">NFT Koleksiyonu</h5>
+                    <p>Antik dünyanın gizemlerini modern dijital sanatla buluşturan benzersiz NFT koleksiyonu.</p>
+                    <div class="d-flex gap-3 mt-4 social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-opensea"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="footer-title">Sayfalar</h5>
+                    <div class="footer-links">
+                        <a href="index.html">Ana Sayfa</a>
+                        <a href="collection.html">Koleksiyon</a>
+                        <a href="about.html">Hakkında</a>
+                        <a href="roadmap.html">Yol Haritası</a>
+                        <a href="faq.html">SSS</a>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 class="footer-title">Kaynaklar</h5>
+                    <div class="footer-links">
+                        <a href="#">Whitepaper</a>
+                        <a href="#">Topluluk</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Basın Kiti</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="footer-title">Bülten</h5>
+                    <p class="mb-3">Yeni NFT'ler ve etkinlikler hakkında bilgi almak için abone olun.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="E-posta adresiniz" aria-label="E-posta adresiniz">
+                        <button class="btn btn-primary" type="button">Abone Ol</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p class="mb-0"> 2025 Antik Mısır NFT Koleksiyonu. Tüm hakları saklıdır.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header yüksekliğine göre body padding ayarlama
+            function adjustBodyPadding() {
+                const navbar = document.querySelector('.navbar');
+                const navbarHeight = navbar.offsetHeight;
+                document.body.style.paddingTop = navbarHeight + 'px';
+            }
+            
+            // Sayfa yüklendiğinde ve yeniden boyutlandırıldığında padding'i ayarla
+            adjustBodyPadding();
+            window.addEventListener('resize', adjustBodyPadding);
+            
+            // Fade-in animations
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // FAQ accordion functionality
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    faqItem.classList.toggle('active');
+                });
+            });
+            
+            // Connect wallet button
+            document.getElementById('connectWallet').addEventListener('click', function() {
+                alert('Cüzdan bağlama özelliği yakında aktif olacaktır!');
+            });
+        });
+    </script>
+</body>
+</html>
