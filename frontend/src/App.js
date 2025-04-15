@@ -9,6 +9,11 @@ import Collection from './pages/Collection';
 import Roadmap from './pages/Roadmap';
 import Faq from './pages/Faq';
 import NFTDetail from './pages/NFTDetail';
+import UserProfile from './pages/UserProfile';
+import CreatorDashboard from './pages/CreatorDashboard';
+import MarketAnalytics from './pages/MarketAnalytics';
+import MintWizard from './pages/MintWizard';
+import CollectionComparison from './pages/CollectionComparison';
 
 // Components
 import Navbar from './components/Navbar';
@@ -109,10 +114,15 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/mint" element={<Mint />} />
+              <Route path="/mint-wizard" element={<MintWizard />} />
               <Route path="/collection" element={<Collection />} />
+              <Route path="/collection-comparison" element={<CollectionComparison />} />
               <Route path="/nft/:id" element={<NFTDetail />} />
               <Route path="/roadmap" element={<Roadmap />} />
               <Route path="/faq" element={<Faq />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/creator-dashboard" element={<CreatorDashboard />} />
+              <Route path="/market-analytics" element={<MarketAnalytics />} />
             </Routes>
           </main>
           <Footer />
