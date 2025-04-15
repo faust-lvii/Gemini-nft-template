@@ -2,12 +2,15 @@ import React, { useState, useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { motion } from 'framer-motion';
 import { Web3Context } from '../utils/Web3Context';
+import ConnectWallet from '../components/ConnectWallet';
+import MintCounter from '../components/MintCounter';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 // Import ABI when available
 // import ModernNFTABI from '../utils/ModernNFTABI.json';
 
 const Mint = () => {
-  const { isConnected, connectWallet, account, signer } = useContext(Web3Context);
+  const { isConnected, connectWallet, account, signer, contract } = useContext(Web3Context);
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState('0.05');
   const [isMinting, setIsMinting] = useState(false);
@@ -105,124 +108,142 @@ const Mint = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Mint Preview */}
-            <div className="bg-dark-light rounded-xl p-6 border border-gray-800">
-              <div className="aspect-square rounded-lg overflow-hidden mb-6 bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                <div className="text-4xl font-bold text-white">?</div>
+            <div className="space-y-6">
+              <div className="bg-dark-light rounded-xl p-6 border border-gray-800">
+                <div className="aspect-square rounded-lg overflow-hidden mb-6 bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                  <div className="text-4xl font-bold text-white">?</div>
+                </div>
+                <h3 className="text-xl font-bold mb-2">ModernNFT Collection</h3>
+                <p className="text-gray-400 mb-4">
+                  Each NFT is unique and randomly generated from over 100 possible traits.
+                </p>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Price:</span>
+                    <span className="font-medium">{mintPrice} ETH</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Max Supply:</span>
+                    <span className="font-medium">10,000</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Max Per Transaction:</span>
+                    <span className="font-medium">10</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">ModernNFT Collection</h3>
-              <p className="text-gray-400 mb-4">
-                Each NFT is unique and randomly generated from over 100 possible traits.
-              </p>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Price:</span>
-                  <span className="font-medium">{mintPrice} ETH</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Max Supply:</span>
-                  <span className="font-medium">10,000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Max Per Transaction:</span>
-                  <span className="font-medium">10</span>
-                </div>
-              </div>
+
+              {/* Mint Counter */}
+              <MintCounter contract={contract} maxSupply={10000} />
             </div>
 
             {/* Mint Form */}
-            <div className="bg-dark-light rounded-xl p-6 border border-gray-800">
-              <h3 className="text-xl font-bold mb-4">Mint Details</h3>
-              
-              {/* Quantity Selector */}
-              <div className="mb-6">
-                <label className="block text-gray-300 mb-2">Quantity</label>
-                <div className="flex items-center">
-                  <button
-                    onClick={decrementQuantity}
-                    className="bg-dark-lighter hover:bg-dark-light border border-gray-700 rounded-l-lg px-4 py-2 focus:outline-none"
-                    disabled={quantity <= 1}
-                  >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                    min="1"
-                    max="10"
-                    className="w-full bg-dark-lighter border-y border-gray-700 text-center py-2 focus:outline-none"
-                  />
-                  <button
-                    onClick={incrementQuantity}
-                    className="bg-dark-lighter hover:bg-dark-light border border-gray-700 rounded-r-lg px-4 py-2 focus:outline-none"
-                    disabled={quantity >= 10}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Price Summary */}
-              <div className="mb-6 p-4 bg-dark rounded-lg">
-                <div className="flex justify-between mb-2">
-                  <span className="text-gray-400">Price per NFT:</span>
-                  <span>{mintPrice} ETH</span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-gray-400">Quantity:</span>
-                  <span>{quantity}</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-gray-700">
-                  <span className="font-medium">Total Price:</span>
-                  <span className="font-medium">{totalPrice} ETH</span>
-                </div>
-              </div>
-
-              {/* Mint Button */}
-              <button
-                onClick={mintNFT}
-                disabled={isMinting}
-                className={`btn-primary w-full ${isMinting ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                {!isConnected ? 'Connect Wallet' : isMinting ? 'Minting...' : 'Mint Now'}
-              </button>
-
-              {/* Success Message */}
-              {mintSuccess && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 p-4 bg-green-900/20 border border-green-700 rounded-lg"
-                >
-                  <p className="text-green-400 font-medium mb-2">
-                    Successfully minted {quantity} NFT{quantity > 1 ? 's' : ''}!
-                  </p>
-                  <p className="text-gray-400 text-sm">
-                    Transaction Hash:{' '}
-                    <a
-                      href={`https://etherscan.io/tx/${txHash}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline break-all"
+            <div className="space-y-6">
+              <div className="bg-dark-light rounded-xl p-6 border border-gray-800">
+                <h3 className="text-xl font-bold mb-4">Mint Details</h3>
+                
+                {/* Quantity Selector */}
+                <div className="mb-6">
+                  <label className="block text-gray-300 mb-2">Quantity</label>
+                  <div className="flex items-center">
+                    <button
+                      onClick={decrementQuantity}
+                      className="bg-dark-lighter hover:bg-dark-light border border-gray-700 rounded-l-lg px-4 py-2 focus:outline-none"
+                      disabled={quantity <= 1}
                     >
-                      {txHash}
-                    </a>
-                  </p>
-                </motion.div>
-              )}
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value={quantity}
+                      onChange={handleQuantityChange}
+                      min="1"
+                      max="10"
+                      className="w-full bg-dark-lighter border-y border-gray-700 text-center py-2 focus:outline-none"
+                    />
+                    <button
+                      onClick={incrementQuantity}
+                      className="bg-dark-lighter hover:bg-dark-light border border-gray-700 rounded-r-lg px-4 py-2 focus:outline-none"
+                      disabled={quantity >= 10}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
 
-              {/* Error Message */}
-              {mintError && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 p-4 bg-red-900/20 border border-red-700 rounded-lg"
-                >
-                  <p className="text-red-400">
-                    Error: {mintError}
-                  </p>
-                </motion.div>
-              )}
+                {/* Price Summary */}
+                <div className="mb-6 p-4 bg-dark rounded-lg">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-400">Price per NFT:</span>
+                    <span>{mintPrice} ETH</span>
+                  </div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-gray-400">Quantity:</span>
+                    <span>{quantity}</span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t border-gray-700">
+                    <span className="font-medium">Total Price:</span>
+                    <span className="font-medium">{totalPrice} ETH</span>
+                  </div>
+                </div>
+
+                {/* Mint Button */}
+                {isConnected ? (
+                  <button
+                    onClick={mintNFT}
+                    disabled={isMinting}
+                    className={`btn-primary w-full ${isMinting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  >
+                    {isMinting ? (
+                      <div className="flex items-center justify-center">
+                        <LoadingSpinner size="small" color="white" className="mr-2" />
+                        <span>Minting...</span>
+                      </div>
+                    ) : (
+                      'Mint Now'
+                    )}
+                  </button>
+                ) : (
+                  <ConnectWallet className="w-full" />
+                )}
+
+                {/* Success Message */}
+                {mintSuccess && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 p-4 bg-green-900/20 border border-green-700 rounded-lg"
+                  >
+                    <p className="text-green-400 font-medium mb-2">
+                      Successfully minted {quantity} NFT{quantity > 1 ? 's' : ''}!
+                    </p>
+                    <p className="text-gray-400 text-sm">
+                      Transaction Hash:{' '}
+                      <a
+                        href={`https://etherscan.io/tx/${txHash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline break-all"
+                      >
+                        {txHash}
+                      </a>
+                    </p>
+                  </motion.div>
+                )}
+
+                {/* Error Message */}
+                {mintError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 p-4 bg-red-900/20 border border-red-700 rounded-lg"
+                  >
+                    <p className="text-red-400">
+                      Error: {mintError}
+                    </p>
+                  </motion.div>
+                )}
+              </div>
             </div>
           </div>
 
