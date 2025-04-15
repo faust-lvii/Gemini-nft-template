@@ -1,7 +1,9 @@
+/* tailwindcss config - these directives are processed by PostCSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom base styles using Tailwind's @layer directive */
 @layer base {
   body {
     @apply bg-dark text-light font-sans;
@@ -36,6 +38,7 @@
   }
 }
 
+/* Custom component styles using Tailwind's @layer directive */
 @layer components {
   .btn {
     @apply px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-opacity-50;
@@ -80,7 +83,7 @@
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - using Tailwind utilities where possible */
 ::-webkit-scrollbar {
   width: 8px;
 }
