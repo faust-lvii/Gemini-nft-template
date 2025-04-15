@@ -10,6 +10,7 @@ import PriceChart from '../components/PriceChart';
 import OwnershipHistory from '../components/OwnershipHistory';
 import RarityScore from '../components/RarityScore';
 import SocialShare from '../components/SocialShare';
+import BiddingSystem from '../components/BiddingSystem';
 
 const NFTDetail = () => {
   const { id } = useParams();
@@ -267,6 +268,9 @@ const NFTDetail = () => {
                   </button>
                 </div>
               )}
+              
+              {/* Bidding System */}
+              <BiddingSystem tokenId={id} currentPrice="0.15" minimumBid="0.01" isForSale={true} />
               
               {/* Social Share */}
               <SocialShare nft={nft} url={window.location.href} />

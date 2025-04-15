@@ -8,6 +8,7 @@ import Mint from './pages/Mint';
 import Collection from './pages/Collection';
 import Roadmap from './pages/Roadmap';
 import Faq from './pages/Faq';
+import NFTDetail from './pages/NFTDetail';
 
 // Components
 import Navbar from './components/Navbar';
@@ -15,6 +16,7 @@ import Footer from './components/Footer';
 
 // Context
 import { Web3Context } from './utils/Web3Context';
+import NotificationProvider from './utils/NotificationContext';
 
 function App() {
   const [account, setAccount] = useState('');
@@ -88,32 +90,35 @@ function App() {
   };
 
   return (
-    <Web3Context.Provider
-      value={{
-        account,
-        provider,
-        signer,
-        contract,
-        isConnected,
-        networkName,
-        connectWallet,
-        disconnectWallet,
-      }}
-    >
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/mint" element={<Mint />} />
-            <Route path="/collection" element={<Collection />} />
-            <Route path="/roadmap" element={<Roadmap />} />
-            <Route path="/faq" element={<Faq />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Web3Context.Provider>
+    <NotificationProvider>
+      <Web3Context.Provider
+        value={{
+          account,
+          provider,
+          signer,
+          contract,
+          isConnected,
+          networkName,
+          connectWallet,
+          disconnectWallet,
+        }}
+      >
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/mint" element={<Mint />} />
+              <Route path="/collection" element={<Collection />} />
+              <Route path="/nft/:id" element={<NFTDetail />} />
+              <Route path="/roadmap" element={<Roadmap />} />
+              <Route path="/faq" element={<Faq />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Web3Context.Provider>
+    </NotificationProvider>
   );
 }
 

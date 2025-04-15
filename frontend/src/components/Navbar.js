@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Web3Context } from '../utils/Web3Context';
 import { motion } from 'framer-motion';
+import NotificationBell from './NotificationBell';
 
 const Navbar = () => {
   const { isConnected, account, connectWallet, disconnectWallet } = useContext(Web3Context);
@@ -55,7 +56,10 @@ const Navbar = () => {
           </div>
 
           {/* Connect Wallet Button */}
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center space-x-4">
+            {/* Notification Bell */}
+            <NotificationBell />
+            
             {isConnected ? (
               <div className="flex items-center space-x-4">
                 <div className="px-4 py-2 bg-dark-lighter rounded-lg text-sm text-gray-300">
@@ -138,6 +142,11 @@ const Navbar = () => {
               
               {/* Mobile Connect Wallet Button */}
               <div className="pt-2">
+                {/* Mobile Notification Bell */}
+                <div className="flex justify-center mb-4">
+                  <NotificationBell />
+                </div>
+                
                 {isConnected ? (
                   <div className="flex flex-col space-y-2">
                     <div className="px-4 py-2 bg-dark-lighter rounded-lg text-sm text-gray-300 w-full text-center">
