@@ -8,6 +8,8 @@ import { formatAddress } from '../utils/contractUtils';
 import AttributeCard from '../components/AttributeCard';
 import PriceChart from '../components/PriceChart';
 import OwnershipHistory from '../components/OwnershipHistory';
+import RarityScore from '../components/RarityScore';
+import SocialShare from '../components/SocialShare';
 
 const NFTDetail = () => {
   const { id } = useParams();
@@ -265,6 +267,9 @@ const NFTDetail = () => {
                   </button>
                 </div>
               )}
+              
+              {/* Social Share */}
+              <SocialShare nft={nft} url={window.location.href} />
             </div>
           </div>
 
@@ -272,6 +277,9 @@ const NFTDetail = () => {
           <div className="mt-12 space-y-8">
             {/* Price Chart */}
             <PriceChart tokenId={id} />
+            
+            {/* Rarity Score */}
+            <RarityScore attributes={nft.attributes} />
             
             {/* Ownership History */}
             <OwnershipHistory />
