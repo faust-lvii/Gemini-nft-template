@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { formatAddress } from '../utils/contractUtils';
 import AttributeCard from '../components/AttributeCard';
 import PriceChart from '../components/PriceChart';
+import OwnershipHistory from '../components/OwnershipHistory';
 
 const NFTDetail = () => {
   const { id } = useParams();
@@ -271,6 +272,9 @@ const NFTDetail = () => {
           <div className="mt-12 space-y-8">
             {/* Price Chart */}
             <PriceChart tokenId={id} />
+            
+            {/* Ownership History */}
+            <OwnershipHistory />
             
             {/* Transaction History */}
             <TransactionHistory />
