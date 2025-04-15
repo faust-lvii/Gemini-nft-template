@@ -11,6 +11,7 @@ import OwnershipHistory from '../components/OwnershipHistory';
 import RarityScore from '../components/RarityScore';
 import SocialShare from '../components/SocialShare';
 import BiddingSystem from '../components/BiddingSystem';
+import BiddingHistory from '../components/BiddingHistory';
 
 const NFTDetail = () => {
   const { id } = useParams();
@@ -290,6 +291,9 @@ const NFTDetail = () => {
             
             {/* Transaction History */}
             <TransactionHistory />
+            
+            {/* Bidding History */}
+            <BiddingHistory nftId={id} currentPrice="0.15" />
           </div>
         </motion.div>
       </div>
