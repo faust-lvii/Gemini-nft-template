@@ -19,7 +19,7 @@ const Home = () => {
                 transition={{ duration: 0.6 }}
               >
                 <h1 className="mb-6">
-                  <span className="text-gradient">Modern NFT</span> Collection
+                  <span className="text-gradient">PIXEL COMPASS</span> Collection
                 </h1>
                 <p className="text-gray-300 text-lg mb-8 max-w-lg">
                   A unique collection of 10,000 digital collectibles living on the Ethereum blockchain. Each NFT is uniquely generated with its own characteristics and traits.
@@ -51,7 +51,7 @@ const Home = () => {
                   >
                     <div className="bg-gradient-to-br from-primary to-secondary aspect-square rounded-lg"></div>
                     <div className="p-2">
-                      <p className="text-sm font-medium">ModernNFT #1</p>
+                      <p className="text-sm font-medium">PIXEL COMPASS #1</p>
                     </div>
                   </motion.div>
                   <motion.div
@@ -60,7 +60,7 @@ const Home = () => {
                   >
                     <div className="bg-gradient-to-br from-purple-500 to-pink-500 aspect-square rounded-lg"></div>
                     <div className="p-2">
-                      <p className="text-sm font-medium">ModernNFT #2</p>
+                      <p className="text-sm font-medium">PIXEL COMPASS #2</p>
                     </div>
                   </motion.div>
                   <motion.div
@@ -69,7 +69,7 @@ const Home = () => {
                   >
                     <div className="bg-gradient-to-br from-blue-500 to-teal-400 aspect-square rounded-lg"></div>
                     <div className="p-2">
-                      <p className="text-sm font-medium">ModernNFT #3</p>
+                      <p className="text-sm font-medium">PIXEL COMPASS #3</p>
                     </div>
                   </motion.div>
                   <motion.div
@@ -78,7 +78,7 @@ const Home = () => {
                   >
                     <div className="bg-gradient-to-br from-amber-500 to-red-500 aspect-square rounded-lg"></div>
                     <div className="p-2">
-                      <p className="text-sm font-medium">ModernNFT #4</p>
+                      <p className="text-sm font-medium">PIXEL COMPASS #4</p>
                     </div>
                   </motion.div>
                 </div>
@@ -196,7 +196,7 @@ const Home = () => {
                   }}
                 ></div>
                 <div className="p-3">
-                  <p className="font-medium text-sm">ModernNFT #{index + 1}</p>
+                  <p className="font-medium text-sm">PIXEL COMPASS #{index + 1}</p>
                 </div>
               </motion.div>
             ))}
