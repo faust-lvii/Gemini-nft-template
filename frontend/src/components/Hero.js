@@ -18,7 +18,7 @@ const Hero = () => {
               transition={{ duration: 0.6 }}
             >
               <h1 className="mb-6">
-                <span className="text-gradient">Modern NFT</span> Collection
+                <span className="text-gradient">MO-NE NFT</span> Collection
               </h1>
               <p className="text-gray-300 text-lg mb-8 max-w-lg">
                 A unique collection of 10,000 digital collectibles living on the Ethereum blockchain. Each NFT is uniquely generated with its own characteristics and traits.

@@ -6,7 +6,7 @@ const CollectionPreview = () => {
   // Generate sample NFTs for preview
   const previewNFTs = Array.from({ length: 10 }, (_, index) => ({
     id: index + 1,
-    name: `MO-NFT #${index + 1}`,
+    name: `ModernNFT #${index + 1}`,
     gradient: `linear-gradient(${45 + index * 20}deg, 
       hsl(${(index * 36) % 360}, 70%, 60%), 
       hsl(${((index * 36) + 60) % 360}, 70%, 60%))`
